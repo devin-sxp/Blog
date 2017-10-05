@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+<title>Home</title>
+{% load static %}
+
+</head>
+<body class="home canvas-wrap gradient" id="canvas">
+<div id="snowspawner"></div>
+{% include "header.html" %}
+<section class="row featured-post-carousel">
+    <div class="item post">
+        <img id="img_user_icon1" style="max-height: 500px" src="" alt="" class="img-responsive main-bg">
+        <div class="post-content">
+            <div class="container">
+                <h5 class="post-meta"><i>in</i> <a href="about.html">Author Profile</a> | <a id="a_user_create_time1">feb 17, 2016</a></h5>
+                <h2 class="post-title"><a href="about.html" id="a_user_description1"></a></h2>
+                <a href="about.html" class="btn btn-primary"><span>read more</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="item post">
+        <img id="img_user_icon2" style="max-height: 500px" src="" alt="" class="img-responsive main-bg">
+        <div class="post-content">
+             <div class="container">
+                <h5 class="post-meta"><i>in</i> <a href="about.html">Author Profile</a> | <a id="a_user_create_time2">feb 17, 2016</a></h5>
+                <h2 class="post-title"><a href="about.html" id="a_user_description2"></a></h2>
+                <a href="about.html" class="btn btn-primary"><span>read more</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="item post">
+        <img id="img_user_icon3" style="max-height: 500px" src="" alt="" class="img-responsive main-bg">
+        <div class="post-content">
+             <div class="container">
+                <h5 class="post-meta"><i>in</i> <a href="about.html">Author Profile</a> | <a id="a_user_create_time3">feb 17, 2016</a></h5>
+                <h2 class="post-title"><a href="about.html" id="a_user_description3"></a></h2>
+                <a href="about.html" class="btn btn-primary"><span>read more</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row content-wrap">
+    <div class="container">
+        <div class="row" id="post-masonry">
+
+            <!--Author Widget-->
+            <aside class="col-sm-4 widget-author widget widget-with-posts post">
+                <div class="widget-author-inner row">
+                    <div class="author-avatar row"><a href="about.html"><img id="img_user_icon" style="height: 108px;width: 108px" src="{% static "/images/author.png"%}" alt="" class="img-circle"></a></div>
+                    <a href="about.html"><h2 class="author-name" id="a_user_name"></h2></a>
+                    <h5 class="author-title">small title</h5>
+                    <p id="p_user_description"></p>
+                    <a href="about.html" class="know-more">know more</a>
+                </div>
+                <ul class="nav social-nav">
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-facebook-official"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                    <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                </ul>
+            </aside>
+
+
+            <!--Twitter Widget-->
+            <aside class="col-sm-4 widget widget-twitter widget-with-posts post">
+                <div class="widget-twitter-inner">
+                    <h5 class="widget-meta"><i class="fa fa-twitter"></i>Twitter feed<a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                    <div class="row tweet-texts">
+                        <p>Check out new post on my github <a href="http://twitter.com/#natureshot">#natureshot</a> <a href="https://github.com/devin-sxp">https://github.com/devin-sxp</a></p>
+                    </div>
+                    <div class="row timepast">1 day ago</div>
+                </div>
+            </aside>
+
+
+            <!--Instagram Widget-->
+            <aside class="col-sm-4 widget widget-instagram widget-with-posts post">
+                <div class="widget-instagram-inner">
+                    <h5 class="widget-meta"><i class="fa fa-twitter"></i>instagram feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                    <div id="instafeed"></div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    {% include "pagination.html"%}
+</section>
+
+<!--Footer-->
+{% include "footer.html" %}
+<script type="application/javascript">
+    $.ajaxSetup({
+        data:{csrfmiddlewaretoken: '{{ csrf_token }}'}
+    });
+</script>
+<script src="{% static "js/my_js/index.js" %}"></script>
+</body>
+</html>

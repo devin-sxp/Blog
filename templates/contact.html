@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+<title>Contact</title>
+{% load static %}
+
+</head>
+<body class="home canvas-wrap gradient" id="canvas">
+
+{% include "single_header.html" %}
+
+<section class="row page-content-wrap">
+    <div class="container">
+        <h2 class="page-title text-center">contact</h2>
+        <div class="row">
+            <div class="col-md-8 page-contents">
+                <div class="row page-content">
+                    <div class="contents row">
+                        <h4>Thank you very much for visiting my blog. If you have any ideas or suggestions, please leave a message for me!</h4>
+                    
+                        <p>If you are sure to leave a message for me, please send your message below. It can be your website, suggestion and email...</p>
+                        <br>
+                        <form action="save_contact" method="post" class="contact-form row">
+                            {% csrf_token %}
+                            <div class="form-group col-sm-6">
+                                <label for="name">full name*</label>
+                                <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Your name" required>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="email">email</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Your email address here">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="website">website</label>
+                                <input type="url" id="website" name="website" class="form-control" placeholder="Your website url">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="subject">subject*</label>
+                                <input type="text" id="subject" name="subject" class="form-control" placeholder="Write subject here" required>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="message">message*</label>
+                                <textarea name="message" style="height: 390px" id="message" class="form-control" placeholder="Write message here" required></textarea>
+                            </div>
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn-primary"><span>send</span></button>
+                                <h5 class="pull-right">*required fields</h5>
+                            </div>
+                        </form>
+                    </div>                    
+                </div>
+            </div>
+            <div class="col-md-4 sidebar">              
+                <!--Author Widget-->
+                <aside class="row m0 widget-author widget has-pt">
+                    <div class="widget-author-inner row">
+                        <div class="author-avatar row"><a href="about.html"><img style="width: 108px;height: 108px;" id="img_user_icon" alt="" class="img-circle"></a></div>
+                        <a href="about.html"><h2 id="a_user_name" class="author-name"></h2></a>
+                        <h5 class="author-title">small title</h5>
+                        <p id="p_user_description"></p>
+                        <a href="about.html" class="know-more">know more</a>
+                    </div>
+                    <ul class="nav social-nav">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook-official"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                </aside>
+                <!--Twitter Widget-->
+                <aside class="row m0 widget widget-twitter">
+                    <div class="widget-twitter-inner">
+                        <h5 class="widget-meta"><i class="fa fa-twitter"></i>Twitter feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                        <div class="row tweet-texts">
+                            <p>Check out new post on my github <a href="http://twitter.com/#natureshot">#natureshot</a> <a href="https://github.com/devin-sxp">https://github.com/devin-sxp</a></p>
+                        </div>
+                        <div class="row timepast">1 day ago</div>
+                    </div>
+                </aside>
+                <!--Instagram Widget-->
+                <aside class="row m0 widget widget-instagram">
+                    <div class="widget-instagram-inner">
+                        <h5 class="widget-meta"><i class="fa fa-twitter"></i>instagram feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                        <div id="instafeed"></div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+{% include "footer.html" %}
+<script src="{% static "js/theme.js" %}"></script>
+<script>
+    var getUserById = function (id) {
+        $.post(getRootPath()+'/get_user_by_id',{id:id},function (data,status) {
+            data = eval("("+data+")")
+            console.log(data);
+            $("#a_user_name").text(data.fields.user_name);
+            $("#p_user_description").text(data.fields.user_description)
+            $("#img_user_icon").attr('src',getRootPath()+"/uploads/"+data.fields.user_icon)
+        },'json')
+    };
+    (function () {
+        getUserById(1)
+    })();
+</script>
+</body>
+</html>

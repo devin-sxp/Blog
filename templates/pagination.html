@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ {% load static %}
+<style type="text/css">
+
+    .posts-navigation {
+        border-top: 1px solid #c69a58;
+        color: #9099b7;
+        font-size: 13px;
+        line-height: 17px;
+        margin-top: 40px;
+        padding-top: 15px;
+    }
+
+    .posts-navigation a {
+        background-repeat: no-repeat;
+        color: #000000;
+        display: block;
+    }
+    .prev {
+        float: left;
+        background-image: url({% static "images/arrow-9.png" %});
+        background-position: left 4px;
+        padding-left: 16px;
+    }
+    .next {
+        float: right;
+        background-image: url({% static "images/arrow-10.png" %});
+        background-position: right 4px;
+        padding-right: 16px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="posts-navigation clearfix ">
+            <a href="index.html?page=0" id="pre_page" class="prev">Previous Page</a>
+            <a href="index.html?page=2" id="next_page" class="next">Next Page</a>
+        </div>
+    </div>
+</body>
+</html>

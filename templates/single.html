@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+<title>Blog</title>
+
+<!--==========Dependency============-->
+{% load static %}
+<link rel="stylesheet" href="{% static "vendors/flexslider/flexslider.css" %}">
+<link href="{% static "https://fonts.googleapis.com/css?family=Montserrat:400,700" %}" rel='stylesheet' type='text/css'>
+<link href="{% static "https://fonts.googleapis.com/css?family=Fredoka+One"%}" rel='stylesheet' type='text/css'>
+
+<!--==========Theme Styles==========-->
+<link href="{% static "css/style.css" %}" rel="stylesheet">
+<link href="{% static "css/theme/green.css"%}" rel="stylesheet">
+<style>
+    .video-mark{
+        z-index: 10;
+        position: absolute;
+        top: calc(50% - 24px);
+        top: -webkit-calc(50% - 24px);
+        top: -moz-calc(50% - 24px);
+        left: calc(50% - 24px);
+        left: -webkit-calc(50% - 24px);
+        left: -moz-calc(50% - 24px);
+    }
+	#div_content img{
+		width:100%;
+    }
+</style>
+</head>
+<body class="home canvas-wrap gradient" id="canvas">
+
+{% include "single_header.html" %}
+<section class="row content-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 single-post-contents">
+                <article class="single-post-content row m0 post">
+                    <header class="row">                        
+                        <h5 class="post-meta">
+                            <a class="date" id="a_create_time"></a>
+                            <span class="post-author"><i>by</i><a href="about.html" id="a_blog_create_user"></a></span>
+                        </h5>
+                        <h2 class="post-title" id="h_title"></h2>
+                        <div class="row">
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">image</a>, <a href="#">entertainment</a></h5>
+                            <div class="response-count pull-right"><img src="static/images/comment-icon-gray.png" alt="">5</div>
+                        </div>
+                    </header>
+                    <div class="featured-content row m0">
+                        <a href="#"><img id="img_icon" src="" alt=""></a>
+                    </div>
+                    <div class="post-content row">
+                        <div id="div_content">
+
+                        </div>
+                        <!-- 16:9 aspect ratio -->
+                        <div class="embed-responsive " id="div_video">
+
+                        </div>
+                        <br>
+                        <!-- Place somewhere in the <body> of your page -->
+                        <div class="thumbCarousel row m0">
+                            <div id="slider" class="flexslider" style="max-height: 380px">
+                                <ul class="slides">
+
+                                </ul>
+                            </div>
+                            <div id="carousel" class="flexslider" style="max-height: 55px">
+                                <ul class="slides">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
+                        <p id="p_description"></p>
+                    </div>
+                    <div class="row m0 tags">
+                        <a id="a_tag" href="" class="tag"></a>
+                    </div>
+                    
+                    <ul class="pager">
+                        <li>
+                            <h4><a href="" id="pre_article">Previous Articles</a></h4>
+
+                        </li>
+                        <li>
+                            <h4><a href="" id="next_article" style="float: right">Next Articles</a></h4>
+
+                        </li>
+                    </ul>
+                    
+                    <div class="row m0 comments" id="div_comments">
+                        <h5 class="response-count">5 comments<a href="#comment-form" class="btn btn-primary pull-right"><span>add comment</span></a></h5>
+                        <!--Comments-->
+
+                    </div>
+                    <button id="load_more" class="btn btn-danger" style="margin: 0 3% 3% 3%;width: 94%;">加载更多</button>
+                    <form action="/save_comment" method="post" class="comment-form row" id="comment-form">{% csrf_token %}
+                        <h5 class="form-title">leave a reply</h5>
+                        <input type="hidden" value="" name="blog_id" id="blog_id">
+                        <div class="form-group col-sm-6">
+                            <label for="full_name">full name*</label>
+                            <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="email">email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Your email address here">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="website">website</label>
+                            <input type="url" id="website" name="website" class="form-control" placeholder="Your website url" >
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="subject">subject*</label>
+                            <input type="text" id="subject" name="subject" class="form-control" placeholder="Write subject here" required>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label for="message">message*</label>
+                            <textarea name="message" id="message" name="message" class="form-control" placeholder="Write message here"></textarea>
+                        </div>
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn-primary" id=""><span>send</span></button>
+                            <h5 class="pull-right">*required fields</h5>
+                        </div>
+                    </form>
+                </article>
+            </div>
+            <div class="col-md-4 sidebar">               
+                <!--Author Widget-->
+                <aside class="row m0 widget-author widget">
+                    <div class="widget-author-inner row">
+                        <div class="author-avatar row"><a href="about.html"><img id="img_user_icon" style="width: 108px;height: 108px" src="static/images/author.png" alt="" class="img-circle"></a></div>
+                        <a href="about.html"><h2 id="a_user_name" class="author-name"></h2></a>
+                        <h5 class="author-title">small title</h5>
+                        <p id="p_user_description"></p>
+                        <a href="about.html" class="know-more">know more</a>
+                    </div>
+                    <ul class="nav social-nav">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook-official"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                </aside>
+                <!--Twitter Widget-->
+                <aside class="row m0 widget widget-twitter">
+                    <div class="widget-twitter-inner">
+                        <h5 class="widget-meta"><i class="fa fa-twitter"></i>Twitter feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                        <div class="row tweet-texts">
+                            <p>Check out new post on my github <a href="http://twitter.com/#natureshot">#natureshot</a> <a href="https://github.com/devin-sxp">https://github.com/devin-sxp</a></p>
+                        </div>
+                        <div class="row timepast">1 day ago</div>
+                    </div>
+                </aside>
+                <!--Instagram Widget-->
+                <aside class="row m0 widget widget-instagram">
+                    <div class="widget-instagram-inner">
+                        <h5 class="widget-meta"><i class="fa fa-twitter"></i>instagram feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                        <div id="instafeed"></div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+{% include "footer.html" %}
+
+<!--========== jQuery (necessary for Bootstrap's JavaScript plugins) ==========-->
+<script type="application/javascript">
+    $.ajaxSetup({
+        data:{csrfmiddlewaretoken: '{{ csrf_token }}'}
+    });
+</script>
+<script src="{% static "vendors/flexslider/jquery.flexslider-min.js" %}"></script>
+{#<script src="{% static "js/theme.js" %}"></script>#}
+<script src="{% static "js/my_js/single.js" %}"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+<title>Home</title>
+     {% load static %}
+
+	<link rel="stylesheet" type="text/css" href="{% static "css/normalize.css"%}" />
+	<link rel="stylesheet" type="text/css" href="{% static "css/default.css"%}">
+<style>
+    canvas {
+        width: 1366px;
+        height: 100%;
+        position: fixed;
+        z-index: -9;
+        top: 0px;
+        left: 0px;
+    }
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+    ::-webkit-scrollbar
+    {
+        width: 10px;
+        height: 10px;
+        background-color: #F5F5F5;
+    }
+
+    /*定义滚动条轨道 内阴影+圆角*/
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+        border-radius: 10px;
+        background-color: #F5F5F5;
+    }
+
+    /*定义滑块 内阴影+圆角*/
+    ::-webkit-scrollbar-thumb
+    {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: lightsalmon;
+    }
+</style>
+</head>
+<body>
+<!--Footer-->
+<footer class="row" id="footer">
+    <div class="container">
+        <div class="row top-footer" >
+            <div class="widget col-sm-5 widget-about">
+                <div class="row m0"><a href="index.html" class="logo-a"><span>BLOG </span>DEVIN-SXP</a></div>
+            </div>
+            <div class="widget col-sm-5 widget-menu" style="float: right">
+                <div class="row">
+                    <ul class="nav column-menu white-bg">
+                        <li class="active" style="float: left"><a href="index.html">Home</a></li>
+                        <li style="float: right"><a href="about.html">About</a></li>
+                    </ul>
+                    <ul class="nav column-menu white-bg">
+                        <li><a href="contact.html">contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <h5 class="copyright">Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href=""></a></h5>
+    </div>
+</footer>
+
+<!--========== jQuery (necessary for Bootstrap's JavaScript plugins) ==========-->
+<script src="{% static "js/jquery-2.2.0.min.js"%}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "vendors/owl-carousel/owl.carousel.min.js" %}"></script>
+<script src="{% static "vendors/magnific-popup/jquery.magnific-popup.min.js" %}"></script>
+<script src="{% static "vendors/instafeed/instafeed.min.js" %}"></script>
+<script src="{% static "vendors/imagesLoaded/imagesloaded.pkgd.min.js" %}"></script>
+<script src="{% static "vendors/isotope/isotope.pkgd.min.js" %}"></script>
+<script src="{% static "js/common/getPath.js" %}"></script>
+<script src="{% static "js/common/getUrlParam.js" %}"></script>
+<script src="{% static "js/Markdown.Converter.js" %}"></script>
+<script src="{% static "js/marked.js" %}"></script>
+
+<!--界面特效 Main library -->
+<script src="{% static  "js/three.min.js"%}"></script>
+<!-- Helpers -->
+<script src="{% static "js/projector.js"%}"></script>
+<script src="{% static "js/canvas-renderer.js"%}"></script>
+<!-- Visualitzation adjustments -->
+<script src="{% static "js/3d-lines-animation.js" %}"></script>
+<script src="{% static "js/color.js"%}"></script>
+
+<!--雪花掉落-->
+{#<script src="{% static "js/letItSnow.js" %}"></script>#}
+<script src="{% static "js/jquery-ui.min.js" %}"></script>
+
+<script type="text/javascript">
+$.ajaxSetup({
+    data:{csrfmiddlewaretoken: '{{ csrf_token }}'}
+});
+$.post(getRootPath()+'/get_blog_tags',{},function (data,status) {
+    var blogTags = eval(data.blogTagsList);
+    $.each(blogTags,function (objIndex,tag) {
+        var html_ul = "<li><a href=\"index.html?page=1&tag="+tag.pk+"\">"+tag.fields.tag_name+"</a></li>";
+        $("#ul_category").append(html_ul)
+    });
+    console.log(blogTags);
+},'json');
+
+</script>
+</body>
+</html>

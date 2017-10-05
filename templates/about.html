@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+<title>About</title>
+     {% load static %}
+</head>
+<body class="home canvas-wrap gradient" id="canvas">
+
+{% include "single_header.html" %}
+<section class="row page-content-wrap">
+    <div class="container">
+        <h2 class="page-title text-center">about me</h2>
+        <div class="row">
+            <div class="col-md-8 page-contents">
+                <div class="row page-content">
+                    <img id="img_user_icon" src="static/images/author.jpg" style="width: 100%" alt="" class="img-responsive">
+
+                    <div class="contents row">
+                        <h4 id="h_user_name">.</h4>
+                    
+                        <p id="p_user_description"></p>
+                        <br>
+                        <div class="row" id="div_user_content">
+                            <div class="col-sm-6">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-4 sidebar">  
+                <!--Twitter Widget-->
+                <aside class="row m0 widget widget-twitter">
+                    <div class="widget-twitter-inner">
+                        <h5 class="widget-meta"><i class="fa fa-twitter"></i>Twitter feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                        <div class="row tweet-texts">
+                            <p>Check out new post on my github <a href="http://twitter.com/#natureshot">#natureshot</a> <a href="https://github.com/devin-sxp">https://github.com/devin-sxp</a></p>
+                        </div>
+                        <div class="row timepast">1 day ago</div>
+                    </div>
+                </aside>
+                <!--Instagram Widget-->
+                <aside class="row m0 widget widget-instagram">
+                    <div class="widget-instagram-inner">
+                        <h5 class="widget-meta"><i class="fa fa-twitter"></i>instagram feed <a href="https://twitter.com/Devin_devinme">@Devin_devinme</a></h5>
+                        <div id="instafeed"></div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+{% include "footer.html" %}
+<script src="{% static "js/theme.js" %}"></script>
+<script>
+    var getUserById = function (id) {
+        $.post(getRootPath()+'/get_user_by_id',{id:id},function (data,status) {
+            data = eval("("+data+")")
+            console.log(data);
+            $("#h_user_name").text(data.fields.user_name);
+            $("#p_user_description").text(data.fields.user_description)
+            $("#img_user_icon").attr('src',getRootPath()+"/uploads/"+data.fields.user_icon);
+            var contents = data.fields.user_content.split("||");
+            $.each(contents,function (objIndex,content) {
+                var html_div = "<div class=\"col-sm-6\">" +
+                            "<p>"+content+"</p>" +
+                            "</div>";
+                $("#div_user_content").append(html_div);
+            })
+        },'json')
+    };
+    (function () {
+        getUserById(1)
+    })();
+</script>
+</body>
+</html>

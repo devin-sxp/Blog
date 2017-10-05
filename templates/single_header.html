@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+<title>single_header</title>
+
+<!--==========Dependency============-->
+ {% load static %}
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+<link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
+<link rel="stylesheet" href="{% static "vendors/owl-carousel/assets/owl.carousel.css" %}">
+<link rel="stylesheet" href="{% static "vendors/magnific-popup/magnific-popup.css" %}">
+
+<link rel="stylesheet" href="{% static "css/Dosis200-800.css" %}">
+<link rel="stylesheet" href="{% static "css/Josefin+Sans600-700italic.css" %}">
+<link href="{% static "css/kanit500.css" %}" rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{% static "css/Muli.css"%}">
+<link href="{% static "css/Roboto.css" %}" rel='stylesheet' type='text/css'>
+
+<!--==========Theme Styles==========-->
+<link href="{% static "css/style.css" %}" rel="stylesheet">
+<link href="{% static "css/theme/green.css"%}" rel="stylesheet">
+
+<!--========== HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries ==========-->
+<!--========== WARNING: Respond.js doesn't work if you view the page via file:// ==========-->
+<!--==========[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+<![endif]==========-->
+</head>
+<body>
+<!-- header -->
+<header class="row transparent white" data-spy="affix" data-offset-top="300" id="header">
+    <div class="container">
+        <div class="row top-header">
+            <div class="col-sm-4 search-form-col">
+                <form action="index.html" method="get" class="search-form">
+                    <div class="input-group">
+                        <span class="input-group-addon"><img src="{% static "images/search-icon-dark.png" %}" alt=""></span>
+                        <input type="search" name="search" class="form-control" placeholder="search">
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4 logo-col text-center">
+                <a href="index.html" class="logo-a"><span>BLOG </span>DEVIN-SXP</a>
+            </div>
+            <div class="col-sm-4 menu-trigger-col">
+                <button class="menu-trigger black pull-right">
+                    <span class="active-page">Blog Details</span>
+                    <img src="{% static "images/menu-align-dark.png"%}" alt="" class="icon-burger">
+                    <img src="{% static "images/menu-close-dark.png" %}" alt="" class="icon-cross">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 menu-col">
+                    <div class="row">
+                        <ul class="nav column-menu white-bg">
+                            <li style="float: left"><a href="index.html" >Home</a></li>
+
+                            <li class="active dropdown" style="float: left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></a>
+                                <ul class="dropdown-menu" id="ul_category" style="min-width: auto;">
+                                </ul>
+                            </li>
+                            <li  style="float: left"><a href="about.html">About</a></li>
+                        </ul>
+                        <ul class="nav column-menu white-bg">
+
+                            <li><a href="contact.html">contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+{#                <div class="col-sm-4 subscribe-col">#}
+{#                    <h5 class="widget-title">subscribe to our newsletter.</h5>#}
+{#                    <form action="#" method="post" class="form-inline subscribe-form">#}
+{#                        <div class="form-group">#}
+{#                            <input type="email" class="form-control" placeholder="Email">#}
+{#                        </div>#}
+{#                        <button type="submit" class="btn btn-primary btn-sm"><span>send</span></button>#}
+{#                    </form>#}
+{#                    <ul class="nav social-nav white">#}
+{#                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>#}
+{#                        <li><a href="#"><i class="fa fa-facebook-official"></i></a></li>#}
+{#                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>#}
+{#                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>#}
+{#                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>#}
+{#                    </ul>#}
+{#                </div>#}
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
