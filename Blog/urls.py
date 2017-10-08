@@ -17,7 +17,7 @@ from django.conf.urls import url,include
 from Blog import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from beautifulBlog import views,blogs,blog_comments,contacts,user
+from beautifulBlog import views,blogs,blog_comments,contacts,user,blog_comment_reply
 from markdownx import urls as markdownx
 
 urlpatterns = [
@@ -39,5 +39,8 @@ urlpatterns = [
     url(r'^save_contact$', contacts.save_contact),
 
     url(r'^get_user_by_id$', user.get_user_by_id),
+
+    url(r'^save_reply$', blog_comment_reply.save_reply),
+    url(r'^get_replys$', blog_comment_reply.get_replys),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

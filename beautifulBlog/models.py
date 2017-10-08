@@ -67,12 +67,24 @@ class blog_comment(models.Model):
     website = models.CharField(max_length=300,blank=True)
     subject = models.CharField(max_length=100)
     message = models.TextField()
+    reply_count = models.IntegerField(default=0)
     create_user = models.IntegerField(default=1)
     create_time = models.DateTimeField(max_length=0,default=timezone.now())
     status = models.IntegerField(default=1)
     def __str__(self):
         return self.name
 
+class blog_comment_reply(models.Model):
+    id = models.AutoField(primary_key=True)
+    comment_id = models.IntegerField(default=0)
+    user_name = models.CharField(max_length=30)
+    target_user_name = models.CharField(max_length=30)
+    message = models.TextField()
+    create_user = models.IntegerField(default=1)
+    create_time = models.DateTimeField(max_length=0,default=timezone.now())
+    status = models.IntegerField(default=1)
+    def __str__(self):
+        return self.name
 
 class contact(models.Model):
     id = models.AutoField(primary_key=True)

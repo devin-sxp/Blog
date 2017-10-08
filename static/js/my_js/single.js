@@ -5,6 +5,16 @@ var blogId = 0;
 var pageStep = 5;
 var currentPage = 1;
 var commentCount = 0;
+
+var reply_to_comment_id = 0;
+var reply_to_targer_user="";
+var reply_input_html = "<div id='div_input_reply'>" +
+    "<input type=\"text\" class='reply_input_name' placeholder='your name'>" +
+    "<textarea class=\"reply_input_content\" ></textarea>" +
+    "<button class=\"reply_input_btn btn btn-danger\" onclick='sure_send_reply()'>send" +
+    "</button>" +
+    "</div>";
+
 var get_blog_by_id = function (blogId) {
   $.post(getRootPath()+"/get_blog_by_id",{blogId:blogId},function (data,status) {
     if(data.length == 0){
@@ -89,15 +99,55 @@ var get_comment_by_blog_id = function (blogId,start,end) {
                 "        <a><img src=\"static/images/posts/c1.jpg\" alt=\"\" class=\"img-circle\"></a>" +
                 "</div>" +
                 "<div class=\"media-body\">" +
-                "        <h4><a>"+comment.fields.full_name+"</a></h4>" +
-                "        <h5><a class=\"date\">"+comment.fields.create_time.replace('T',' ')+"</a> | <a class=\"reply-link\">reply</a></h5>" +
-                "        <p style='margin-bottom: 10px'>"+comment.fields.message+"</p>" +
+                "        <h4>"+comment.fields.full_name+"</h4>" +
+                "        <h5><a class=\"date\">"+comment.fields.create_time.replace('T',' ')+"</a> | <a class=\"btn_reply reply-link\">reply</a>" +
+                "<input type='hidden' value='"+comment.pk+"'>" +
+                "| <a class=\"reply-link btn_have_reply\">已有回复"+comment.fields.reply_count+"条</a></h5>" +
+                "        <p style='margin-bottom: 10px;text-transform:capitalize'>"+comment.fields.message+"</p>" +
                 "<a target='_blank' href='"+comment.fields.website+"'>"+comment.fields.website+"</a>"+
-                "</div>" +
+                "<div></div></div>" +
                 "</div><hr>";
 
             $("#div_comments").append(html_comment)
-        })
+        });
+        $(".btn_reply").click(function () {
+            $("#div_input_reply").remove();
+            $(this).parent().after(reply_input_html);
+            reply_to_comment_id = $(this).next().val();
+            reply_to_targer_user = $(this).parent().prev().text();
+        });
+
+        $(".btn_have_reply").click(function () {
+            reply_to_comment_id = $(this).prev().val();
+            var $node = $(this).parent().next().next().next();
+            $node.empty();
+            $.post(getRootPath()+"/get_replys",{comment_id:reply_to_comment_id},function (data,status) {
+                data = eval(data.replys);
+                var html = "";
+                $.each(data,function (objIndex,reply) {
+                    html = html + "<div class=\"media comment reply\">" +
+                    "<div class=\"media-left\">" +
+                    "<a><img src=\"static/images/posts/c2.jpg\" alt=\"\" class=\"img-circle\"></a>" +
+                    "</div>" +
+                    "<div class=\"media-body\">" +
+                    "<h4>"+reply.fields.user_name+":@"+reply.fields.target_user_name+"</h4>" +
+                    "<h5><a class=\"date\">"+reply.fields.create_time.replace('T',' ')+"</a> | <a class=\"btn_reply1 reply-link\">reply</a><input type='hidden'" +
+                        " value='"+reply_to_comment_id+"'>" +
+                    "<p style='margin-bottom: 10px;text-transform:capitalize'>"+reply.fields.message+"</p>" +
+                    "</div>" +
+                    "</div>";
+
+                });
+               $node.append(html);
+                $(".btn_reply1").click(function () {
+                    $("#div_input_reply").remove();
+                    $(this).parent().after(reply_input_html);
+                    reply_to_comment_id = $(this).next().val();
+                    reply_to_targer_user = $(this).parent().prev().text().split(":")[0];
+                });
+                console.log(data)
+            })
+        });
     });
 };
 
@@ -133,3 +183,16 @@ $("#load_more").on('click',function () {
     currentPage++;
     get_comment_by_blog_id(blogId,pageStep*(currentPage-1),pageStep*currentPage);
 });
+
+
+function sure_send_reply() {
+
+    $.post("save_reply",{comment_id:reply_to_comment_id,target_user_name:reply_to_targer_user,
+              user_name:$(".reply_input_name").val(),message:$(".reply_input_content").val()},function (data,status) {
+            if(status == 'success'){
+                location.reload();
+            }else{
+                alert("回复失败！")
+            }
+    })
+}
