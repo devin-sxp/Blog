@@ -40,7 +40,7 @@ var get_blogs = function (start,end,tag,search) {
                   "                        <p>"+blog.fields.description+"</p>" +
                   "                        <footer class=\"row\">" +
                   "                            <h5 class=\"taxonomy\"><i>in</i> <a href=\""+getRootPath()+'/index.html?page=1&tag='+blog.fields.tag[0]+"\">"+blog.fields.tag[1]+"</a></h5>" +
-                  "                            <div class=\"response-count\"><img src=\"static/images/comment-icon-gray.png\" alt=\"\">5</div>" +
+                  "                            <div class=\"response-count\"><img src=\"static/images/comment-icon-gray.png\">"+blog.fields.comment_count+"</div>" +
                   "                        </footer>" +
                   "                    </div>" +
                   "                </div>" +
@@ -57,7 +57,7 @@ var get_blogs = function (start,end,tag,search) {
                   "                        <h5 class=\"quote-maker\">"+blog.fields.description+"</h5>" +
                   "                        <footer class=\"row\">" +
                   "                            <h5 class=\"taxonomy\"><i>in</i> <a href=\""+getRootPath()+'/index.html?page=1&tag='+blog.fields.tag[0]+"\">"+blog.fields.tag[1]+"</a></h5>" +
-                  "                            <div class=\"response-count\"><img src=\"static/images/comment-icon-white.png\" alt=\"\">5</div>" +
+                  "                            <div class=\"response-count\"><img src=\"static/images/comment-icon-white.png\" alt=\"\">"+blog.fields.comment_count+"</div>" +
                   "                        </footer>" +
                   "                    </div>" +
                   "                </div>" +
@@ -71,7 +71,7 @@ var get_blogs = function (start,end,tag,search) {
                     "<span class=\"post-author\"><i>by</i><a href=\"about.html\">"+blog.fields.user[1]+"</a></span>"+
                     "</h5><h3 class=\"post-title\"><a href=\"single.html?blogId="+blog.pk+"\">"+blog.fields.title+"</a></h3><p>"+blog.fields.description+"</p>"+
                     "<footer class=\"row\"><h5 class=\"taxonomy\"><i>in</i> <a href=\""+getRootPath()+'/index.html?page=1&tag='+blog.fields.tag[0]+"\">"+blog.fields.tag[1]+"</a></h5>"+
-                    "<div class=\"response-count\"><img src=\"static/images/comment-icon-gray.png\" alt=\"\">5</div>"+
+                    "<div class=\"response-count\"><img src=\"static/images/comment-icon-gray.png\" alt=\"\">"+blog.fields.comment_count+"</div>"+
                     "</footer></div></div></article>";
 
           }else{
@@ -105,7 +105,7 @@ var get_blogs = function (start,end,tag,search) {
                   "                        <p>"+blog.fields.description+"</p>" +
                   "                        <footer class=\"row\">" +
                   "                            <h5 class=\"taxonomy\"><i>in</i> <a href=\""+getRootPath()+'/index.html?page=1&tag='+blog.fields.tag[0]+"\">"+blog.fields.tag[1]+"</a></h5>" +
-                  "                            <div class=\"response-count\"><img src=\"images/comment-icon-gray.png\" alt=\"\">5</div>" +
+                  "                            <div class=\"response-count\"><img src=\"images/comment-icon-gray.png\" alt=\"\">"+blog.fields.comment_count+"</div>" +
                   "                        </footer>" +
                   "                    </div>" +
                   "                </div>" +

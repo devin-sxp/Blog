@@ -639,7 +639,7 @@ textarea.form-control {
 .featured-post-carousel .post-content {
   width: 100%;
   position: absolute;
-  bottom: 160px;
+  bottom: 80px;
 }
 @media (max-width: 1199px) {
   .featured-post-carousel .post-content {

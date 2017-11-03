@@ -58,6 +58,9 @@
         border: 1px solid #dcdcdc;
         border-radius: 4px;
     }
+    a{
+        cursor: pointer;
+    }
 </style>
 </head>
 <body class="home canvas-wrap gradient" id="canvas">
@@ -75,7 +78,7 @@
                         </h5>
                         <h2 class="post-title" id="h_title"></h2>
                         <div class="row">
-                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">image</a>, <a href="#">entertainment</a></h5>
+                            <h5 class="taxonomy pull-left"><i>in</i> <a class="a_tag"></a></h5>
                             <div class="response-count pull-right"><img src="static/images/comment-icon-gray.png" alt="">5</div>
                         </div>
                     </header>
@@ -108,7 +111,7 @@
                         <p id="p_description"></p>
                     </div>
                     <div class="row m0 tags">
-                        <a id="a_tag" href="" class="tag"></a>
+                        <a class="tag a_tag"></a>
                     </div>
                     
                     <ul class="pager">
@@ -201,14 +204,13 @@
 <!--Footer-->
 {% include "footer.html" %}
 
-<!--========== jQuery (necessary for Bootstrap's JavaScript plugins) ==========-->
 <script type="application/javascript">
     $.ajaxSetup({
         data:{csrfmiddlewaretoken: '{{ csrf_token }}'}
     });
 </script>
 <script src="{% static "vendors/flexslider/jquery.flexslider-min.js" %}"></script>
-{#<script src="{% static "js/theme.js" %}"></script>#}
 <script src="{% static "js/my_js/single.js" %}"></script>
+<script src="{% static "js/iconGenerate/chan.avatar.js" %}"></script>
 </body>
 </html>

@@ -18,7 +18,7 @@ var reply_input_html = "<div id='div_input_reply'>" +
 var get_blog_by_id = function (blogId) {
   $.post(getRootPath()+"/get_blog_by_id",{blogId:blogId},function (data,status) {
     if(data.length == 0){
-        alert("没有该文章啦");
+        $.MsgBox.Alert("提示","没有该文章啦");
         return
     }
 
@@ -33,7 +33,7 @@ var get_blog_by_id = function (blogId) {
       var content = marked(data.fields.content);
     $("#div_content").html(content);
     $("#p_description").text(data.fields.description);
-    $("#a_tag").text(data.fields.tag[1]).attr('href',getRootPath()+'/index.html?page=1&tag='+data.fields.tag[0]);
+    $(".a_tag").text(data.fields.tag[1]).attr('href',getRootPath()+'/index.html?page=1&tag='+data.fields.tag[0]);
     $("#a_blog_create_user").text(data.fields.user[1]);
     if(data.fields.file != ""){
             var html_video ="<video controls style='width: 100%;height: 100%' poster=\"uploads/"+data.fields.icon+"\" alt=\"\" class=\"img-responsive\">" +
@@ -96,7 +96,7 @@ var get_comment_by_blog_id = function (blogId,start,end) {
         $.each(comments,function (objIndex,comment) {
             var html_comment = "<div class=\"media comment\">" +
                 "<div class=\"media-left\">" +
-                "        <a><img src=\"static/images/posts/c1.jpg\" alt=\"\" class=\"img-circle\"></a>" +
+                "   <div class=\"comment_icon_show\" data-name=\""+comment.fields.full_name+"\"></div>" +
                 "</div>" +
                 "<div class=\"media-body\">" +
                 "        <h4>"+comment.fields.full_name+"</h4>" +
@@ -110,6 +110,15 @@ var get_comment_by_blog_id = function (blogId,start,end) {
 
             $("#div_comments").append(html_comment)
         });
+        //设置评论表情头像
+        var params = {
+            sub:1,
+            width:'60px',
+            height:'60px',
+            fontSize:'28px'
+        };
+        $(".comment_icon_show").avatarIcon(params);
+
         $(".btn_reply").click(function () {
             $("#div_input_reply").remove();
             $(this).parent().after(reply_input_html);
@@ -118,6 +127,7 @@ var get_comment_by_blog_id = function (blogId,start,end) {
         });
 
         $(".btn_have_reply").click(function () {
+            var class_reply_icon = "reply_icon_show"+new Date().getTime();
             reply_to_comment_id = $(this).prev().val();
             var $node = $(this).parent().next().next().next();
             $node.empty();
@@ -127,7 +137,7 @@ var get_comment_by_blog_id = function (blogId,start,end) {
                 $.each(data,function (objIndex,reply) {
                     html = html + "<div class=\"media comment reply\">" +
                     "<div class=\"media-left\">" +
-                    "<a><img src=\"static/images/posts/c2.jpg\" alt=\"\" class=\"img-circle\"></a>" +
+                    "<div class=\""+class_reply_icon+"\" data-name=\""+reply.fields.user_name+"\"></div>" +
                     "</div>" +
                     "<div class=\"media-body\">" +
                     "<h4>"+reply.fields.user_name+":@"+reply.fields.target_user_name+"</h4>" +
@@ -145,7 +155,15 @@ var get_comment_by_blog_id = function (blogId,start,end) {
                     reply_to_comment_id = $(this).next().val();
                     reply_to_targer_user = $(this).parent().prev().text().split(":")[0];
                 });
-                console.log(data)
+                // console.log(data)
+                 //设置表情头像
+                var params = {
+                    sub:1,
+                    width:'60px',
+                    height:'60px',
+                    fontSize:'28px'
+                };
+                $("."+class_reply_icon+"").avatarIcon(params);
             })
         });
     });
@@ -177,7 +195,7 @@ var getUserById = function (id) {
 
 $("#load_more").on('click',function () {
     if(currentPage == Math.floor(commentCount/pageStep)+1){
-        alert("没有更多了");
+        $.MsgBox.Alert("提示","没有更多了");
         return
     }
     currentPage++;
@@ -186,13 +204,15 @@ $("#load_more").on('click',function () {
 
 
 function sure_send_reply() {
-
+    if($(".reply_input_name").val().trim() == "" || $(".reply_input_content").val().trim() || ""){
+        return $.MsgBox.Alert("提示", "请输入回复信息！");
+    }
     $.post("save_reply",{comment_id:reply_to_comment_id,target_user_name:reply_to_targer_user,
               user_name:$(".reply_input_name").val(),message:$(".reply_input_content").val()},function (data,status) {
             if(status == 'success'){
                 location.reload();
             }else{
-                alert("回复失败！")
+                $.MsgBox.Alert("提示","回复失败！")
             }
     })
 }

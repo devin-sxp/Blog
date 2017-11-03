@@ -2,7 +2,7 @@ from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 from django.core import serializers
 from django.shortcuts import render
 from django.forms.models import model_to_dict
-from beautifulBlog.models import blog_comment
+from beautifulBlog.models import blog_comment,blog
 import json
 from django.utils import timezone
 
@@ -37,7 +37,10 @@ def save_comment(request):
         message = request.POST['message']
         try:
             comment = blog_comment(blog_id=blogId,full_name=fullName,email=email,subject=subject,website=website,message=message,create_time= timezone.now())
+            bl = blog.objects.get(id=blogId)
+            bl.comment_count = bl.comment_count + 1
             comment.save()
+            bl.save()
         except Exception as e:
             return JsonResponse(['false'],safe=False)
         return HttpResponseRedirect(request.session['url'])
