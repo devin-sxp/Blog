@@ -5,7 +5,7 @@ var blogId = 0;
 var pageStep = 5;
 var currentPage = 1;
 var commentCount = 0;
-
+var $nodes = "" //reply显示总节点
 var reply_to_comment_id = 0;
 var reply_to_targer_user="";
 var reply_input_html = "<div id='div_input_reply'>" +
@@ -127,45 +127,51 @@ var get_comment_by_blog_id = function (blogId,start,end) {
         });
 
         $(".btn_have_reply").click(function () {
-            var class_reply_icon = "reply_icon_show"+new Date().getTime();
             reply_to_comment_id = $(this).prev().val();
-            var $node = $(this).parent().next().next().next();
-            $node.empty();
-            $.post(getRootPath()+"/get_replys",{comment_id:reply_to_comment_id},function (data,status) {
-                data = eval(data.replys);
-                var html = "";
-                $.each(data,function (objIndex,reply) {
-                    html = html + "<div class=\"media comment reply\">" +
-                    "<div class=\"media-left\">" +
-                    "<div class=\""+class_reply_icon+"\" data-name=\""+reply.fields.user_name+"\"></div>" +
-                    "</div>" +
-                    "<div class=\"media-body\">" +
-                    "<h4>"+reply.fields.user_name+":@"+reply.fields.target_user_name+"</h4>" +
-                    "<h5><a class=\"date\">"+reply.fields.create_time.replace('T',' ')+"</a> | <a class=\"btn_reply1 reply-link\">reply</a><input type='hidden'" +
-                        " value='"+reply_to_comment_id+"'>" +
-                    "<p style='margin-bottom: 10px;text-transform:capitalize'>"+reply.fields.message+"</p>" +
-                    "</div>" +
-                    "</div>";
-
-                });
-               $node.append(html);
-                $(".btn_reply1").click(function () {
-                    $("#div_input_reply").remove();
-                    $(this).parent().after(reply_input_html);
-                    reply_to_comment_id = $(this).next().val();
-                    reply_to_targer_user = $(this).parent().prev().text().split(":")[0];
-                });
-                // console.log(data)
-                 //设置表情头像
-                var params = {
-                    sub:1,
-                    width:'60px',
-                    height:'60px',
-                    fontSize:'28px'
-                };
-                $("."+class_reply_icon+"").avatarIcon(params);
-            })
+            $target = $(this).parent().next().next().next();
+            get_reply_by_comment_id(reply_to_comment_id,$target)
         });
+    });
+};
+
+var get_reply_by_comment_id = function (reply_to_comment_id,$node) {
+    var class_reply_icon = "reply_icon_show"+new Date().getTime();
+    $node.empty();
+    $.post(getRootPath()+"/get_replys",{comment_id:reply_to_comment_id},function (data,status) {
+        data = eval(data.replys);
+        var html = "";
+        $.each(data,function (objIndex,reply) {
+            html = html + "<div class=\"media comment reply\">" +
+            "<div class=\"media-left\">" +
+            "<div class=\""+class_reply_icon+"\" data-name=\""+reply.fields.user_name+"\"></div>" +
+            "</div>" +
+            "<div class=\"media-body\">" +
+            "<h4>"+reply.fields.user_name+":@"+reply.fields.target_user_name+"</h4>" +
+            "<h5><a class=\"date\">"+reply.fields.create_time.replace('T',' ')+"</a> | <a class=\"btn_reply1 reply-link\">reply</a><input type='hidden'" +
+                " value='"+reply_to_comment_id+"'>" +
+            "<p style='margin-bottom: 10px;text-transform:capitalize'>"+reply.fields.message+"</p>" +
+            "</div>" +
+            "</div>";
+
+        });
+       $node.append(html);
+        $(".btn_reply1").unbind();
+        $(".btn_reply1").bind('click',function () {
+            $nodes = $(this).parent().parent().parent().parent();
+            $("#div_input_reply").remove();
+            $(this).parent().after(reply_input_html);
+            reply_to_comment_id = $(this).next().val();
+            reply_to_targer_user = $(this).parent().prev().text().split(":")[0];
+        });
+        // console.log(data)
+         //设置表情头像
+        var params = {
+            sub:1,
+            width:'60px',
+            height:'60px',
+            fontSize:'28px'
+        };
+        $("."+class_reply_icon+"").avatarIcon(params);
     });
 };
 
@@ -204,13 +210,14 @@ $("#load_more").on('click',function () {
 
 
 function sure_send_reply() {
-    if($(".reply_input_name").val().trim() == "" || $(".reply_input_content").val().trim() || ""){
+    if($(".reply_input_name").val().trim() == "" || $(".reply_input_content").val().trim() == ""){
         return $.MsgBox.Alert("提示", "请输入回复信息！");
     }
     $.post("save_reply",{comment_id:reply_to_comment_id,target_user_name:reply_to_targer_user,
               user_name:$(".reply_input_name").val(),message:$(".reply_input_content").val()},function (data,status) {
             if(status == 'success'){
-                location.reload();
+                // location.reload();
+                get_reply_by_comment_id(reply_to_comment_id,$nodes);
             }else{
                 $.MsgBox.Alert("提示","回复失败！")
             }
